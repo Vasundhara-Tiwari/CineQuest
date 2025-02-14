@@ -7,7 +7,7 @@
       </mat-chip-list>
    </div>
      <div class="card-content">
-          <img class="backdrop-image" [src]="movie.backdrop_path ? 'https://image.tmdb.org/t/p/w500' + movie.backdrop_path : 'assets/no-image.png'" alt="Movie Poster">
+          <img *ngIf="movie.backdrop_path != null" class="backdrop-image" [src]="movie.backdrop_path ? 'https://image.tmdb.org/t/p/w500' + movie.backdrop_path : 'assets/no-image.png'" alt="Movie Poster">
           <h3 class="movie-title">{{ movie.title }}</h3>
           <button mat-flat-button (click)="openDetailsModal()">
             View Details
