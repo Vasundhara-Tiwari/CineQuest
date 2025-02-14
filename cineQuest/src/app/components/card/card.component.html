@@ -1,0 +1,18 @@
+<mat-card class="card-container" 
+          [ngStyle]="{'background-image': movie.poster_path ? 'url(https://image.tmdb.org/t/p/w500' + movie.poster_path + ')' : 'url(assets/no-image.png)'}">
+  <div class="overlay">
+   <div class="release-date">
+      <mat-chip-list>
+         <mat-chip>{{movie.release_date | yearFromDate}}</mat-chip>
+      </mat-chip-list>
+   </div>
+     <div class="card-content">
+          <img class="backdrop-image" [src]="movie.backdrop_path ? 'https://image.tmdb.org/t/p/w500' + movie.backdrop_path : 'assets/no-image.png'" alt="Movie Poster">
+          <h3 class="movie-title">{{ movie.title }}</h3>
+          <button mat-flat-button (click)="openDetailsModal()">
+            View Details
+            <mat-icon>arrow_right</mat-icon>
+          </button>
+      </div>
+  </div>
+</mat-card>
