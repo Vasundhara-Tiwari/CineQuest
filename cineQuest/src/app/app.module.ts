@@ -19,6 +19,8 @@ import {MatIconModule} from '@angular/material/icon';
 import { YearFromDatePipe } from './pipes/year-from-date.pipe';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatInputModule} from '@angular/material/input';
+import {MatSliderModule} from '@angular/material/slider';
+import { CarouselCardComponent } from './components/carousel-card/carousel-card.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import {MatInputModule} from '@angular/material/input';
     FooterComponent,
     HeaderComponent,
     CardComponent,
-    YearFromDatePipe
+    YearFromDatePipe,
+    CarouselCardComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ import {MatInputModule} from '@angular/material/input';
     MatIconModule,
     MatChipsModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatSliderModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

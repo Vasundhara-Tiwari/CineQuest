@@ -1,0 +1,28 @@
+<div class="carousel-card-outer">
+    <div 
+        class="image-bg" 
+        [ngStyle]="{
+            'background-image': movie.poster_path 
+                ? 'url(https://image.tmdb.org/t/p/w500' + movie.poster_path + ')' 
+                : 'url(../../assets/images/bg.png)',
+            'background-size': 'cover',
+            'background-position': 'center',
+            'width': '100%',
+            'height': '80vh'
+        }">
+    </div> 
+    <div class="overlay">
+        <div class="release-date">
+            <mat-chip-list>
+                <mat-chip>{{ movie.release_date | date:'yyyy' }}</mat-chip>
+            </mat-chip-list>
+        </div>
+        <div class="card-content">
+            <img *ngIf="movie.backdrop_path" 
+                 class="backdrop-image" 
+                 [src]="'https://image.tmdb.org/t/p/w500' + movie.backdrop_path" 
+                 alt="Movie Poster">
+            <h3 class="movie-title">{{ movie.title }}</h3>
+        </div>
+    </div>
+</div>

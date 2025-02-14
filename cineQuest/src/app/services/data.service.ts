@@ -21,7 +21,7 @@ export class DataService {
   ) { }
 
   getTrendingMovies(): Observable<any> {
-    const url = `${this.baseUrl}/trending/movie/week?api_key=${this.API_KEY}`;
+    const url = `${this.baseUrl}/trending/all/week?api_key=${this.API_KEY}`;
     return this.http.get(url);
   }
 
