@@ -11,11 +11,37 @@ export class HeaderComponent implements OnInit {
   trendingMovies: any;
   errorMessage: string = '';
   movieName: string = '';
+  genres: any[] = [];
   page: number = 1;
+  filterByGenreClicked: boolean = false;
 
   constructor(private dataService: DataService) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.getGenres();
+    this.filterByGenre(28);
+  }
+
+  getGenres() {
+    this.dataService.genres$.subscribe((genres) => {
+      this.genres = genres;
+    });
+  }
+
+  filterByGenre(genreId: number): void {
+    this.dataService.getMoviesByGenre(genreId).subscribe(
+      (response: any) => {
+        this.dataService.updateMoviesList(response.results);
+      },
+      (error) => {
+        console.error('Error fetching movies by genre:', error);
+      }
+    );
+  }
+
+  filterClicked(){
+    this.filterByGenreClicked = !this.filterByGenreClicked;
+  }
 
   onChangeText() {
     if (this.movieName == ''){

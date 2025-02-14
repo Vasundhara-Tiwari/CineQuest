@@ -16,6 +16,17 @@
           </a>
     </div>
 </div>
+<div class="middle-section">
+  <span class="all-movie-heading">Trending Movies</span>
+  <button mat-raised-button class="filter-button bg-primary" (click)="filterClicked()">Filters</button>
+</div>
+<div *ngIf="filterByGenreClicked">
+  <div class="genres">
+      <a mat-button *ngFor="let genre of genres" (click)="filterByGenre(genre.id)" class="genre-link">
+          {{ genre.name }}
+      </a>
+  </div>
+</div>
 <div class="movie-container">
     <app-card *ngFor="let movie of allMovies" [movie]="movie"></app-card>
 </div>

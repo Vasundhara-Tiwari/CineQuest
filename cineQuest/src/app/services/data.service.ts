@@ -13,12 +13,16 @@ export class DataService {
   private movieListSource = new BehaviorSubject<any[]>([]);
   currentMoviesList = this.movieListSource.asObservable();
 
+  private genresSubject = new BehaviorSubject<any[]>([]);
+  genres$ = this.genresSubject.asObservable();
 
   private API_KEY = '5fb013f828dc53501234ae8f4379871f';
   private baseUrl = 'https://api.themoviedb.org/3';
   constructor(
     private http: HttpClient
-  ) { }
+  ) {
+    this.fetchGenres();
+   }
 
   getTrendingMovies(page: number): Observable<any> {
     const url = `${this.baseUrl}/trending/all/week?api_key=${this.API_KEY}`;
@@ -41,5 +45,20 @@ export class DataService {
 
   updateMoviesList(movies: any[]) {
     this.movieListSource.next(movies);
+  }
+  getGenres(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/genre/movie/list?api_key=${this.API_KEY}&language=en-US`);
+  }
+
+  getMoviesByGenre(genreId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/discover/movie?api_key=${this.API_KEY}&with_genres=${genreId}`);
+  }
+
+  fetchGenres() {
+    this.getGenres().subscribe((response) => {
+      if (response && response.genres) {
+        this.genresSubject.next(response.genres);
+      }
+    });
   }
 }

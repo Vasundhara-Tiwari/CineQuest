@@ -12,17 +12,19 @@
         }">
     </div> 
     <div class="overlay">
-        <div class="release-date">
-            <mat-chip-list>
-                <mat-chip>{{ movie.release_date | date:'yyyy' }}</mat-chip>
-            </mat-chip-list>
-        </div>
-        <div class="card-content">
+        <div  class="card-content">
             <img *ngIf="movie.backdrop_path" 
                  class="backdrop-image" 
                  [src]="'https://image.tmdb.org/t/p/w500' + movie.backdrop_path" 
                  alt="Movie Poster">
-            <h3 class="movie-title">{{ movie.title }}</h3>
+                 <div class="release-date">
+                    <mat-chip-list>
+                        <mat-chip>{{ movie.release_date | date:'yyyy' }}</mat-chip>
+                    </mat-chip-list>
+                </div>
+                 <div>
+                    <h3 class="movie-title">{{ movie.title }}</h3>
+                </div>
         </div>
     </div>
 </div>

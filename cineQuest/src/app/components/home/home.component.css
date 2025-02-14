@@ -2,12 +2,39 @@
   height: max-content;
 }
 
+.middle-section{
+  display: grid;
+  grid-template-columns: 7fr 1fr;
+  padding: 1.5rem 0rem 0rem 2rem;
+}
+
+.filter-button{
+  color: white;
+  font-size: 1rem;
+  margin-right: 2rem;
+}
+
+.all-movie-heading{
+  font-size: 1.2rem;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+}
+
 .movie-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 1rem;
+    justify-content: space-evenly;
     background: whitesmoke;
+}
+
+
+.genres{
+  cursor: pointer;
+  display: flex;
+  justify-content: space-evenly;
+  background-image: linear-gradient(to left, #434343 0%, black 100%);
+  color: white;
+  font-size: 1.2rem;
 }
   
   @media (max-width: 1024px) {

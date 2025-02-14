@@ -8,6 +8,8 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class HomeComponent implements OnInit {
 
+  filterByGenreClicked: boolean = false;
+  genres: any[] = [];
   totalPages = 100;
   allMovies: any[] = [];
   trendingMovies: any[] = [];
@@ -19,6 +21,9 @@ export class HomeComponent implements OnInit {
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
+    this.dataService.genres$.subscribe((genres) => {
+      this.genres = genres;
+    });
     this.getAllMovies();
     this.getTrendingMovies();
     this.listenForSearchUpdates();
@@ -95,5 +100,21 @@ export class HomeComponent implements OnInit {
     ) {
       this.getAllMovies();
     }
+  }
+
+  filterByGenre(genreId: number): void {
+    this.dataService.getMoviesByGenre(genreId).subscribe(
+      (response: any) => {
+        this.allMovies = response.results;
+      },
+      (error) => {
+        console.error('Error fetching movies by genre:', error);
+      }
+    );
+  }
+
+  filterClicked(){
+    console.log("here");
+    this.filterByGenreClicked = !this.filterByGenreClicked;
   }
 }
