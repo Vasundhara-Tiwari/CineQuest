@@ -21,6 +21,8 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatInputModule} from '@angular/material/input';
 import {MatSliderModule} from '@angular/material/slider';
 import { CarouselCardComponent } from './components/carousel-card/carousel-card.component';
+import { DetailsDialogComponent } from './components/details-dialog/details-dialog.component';
+import { OneDecimalPipe } from './pipes/one-decimal.pipe';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { CarouselCardComponent } from './components/carousel-card/carousel-card.
     HeaderComponent,
     CardComponent,
     YearFromDatePipe,
-    CarouselCardComponent
+    CarouselCardComponent,
+    DetailsDialogComponent,
+    OneDecimalPipe
   ],
   imports: [
     BrowserModule,
