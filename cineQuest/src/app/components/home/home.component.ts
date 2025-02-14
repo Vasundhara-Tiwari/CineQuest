@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -8,37 +8,73 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class HomeComponent implements OnInit {
 
-  trendingMovies: any;
+  totalPages = 100;
+  allMovies: any[] = [];
+  trendingMovies: any[] = [];
   errorMessage: string = '';
+  page: number = 1;
+  isLoading: boolean = false;
+  searchMode: boolean = false;
+
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.getInitialData();
-    this.updateMovieList();
+    this.getAllMovies();
+    this.getTrendingMovies();
+    this.listenForSearchUpdates();
   }
 
-  getInitialData = () => {
-    this.dataService.getTrendingMovies().subscribe(
+  getAllMovies() {
+    this.dataService.getAllMoviesByPage(this.page).subscribe(
       (response: any) => {
         if (response && response.results) {
-          this.trendingMovies = response.results;
-          console.log("Trending Movies:", this.trendingMovies);
+          this.allMovies = [...this.allMovies, ...response.results];
+          console.log("allMovies:", this.allMovies);
         } else {
           this.errorMessage = 'No trending movies found.';
         }
+        this.isLoading = false;
       },
       (error) => {
         console.error("Error fetching trending movies:", error);
         this.errorMessage = 'Failed to fetch trending movies. Please try again later.';
+        this.isLoading = false;
       }
     );
   }
 
-  updateMovieList = () => {
+  getTrendingMovies(): void {
+    if (this.isLoading) return;
+    this.isLoading = true;
+    this.dataService.getTrendingMovies(this.page).subscribe(
+      (response: any) => {
+        if (response && response.results) {
+          this.trendingMovies = [...this.trendingMovies, ...response.results];  // Append new results
+          console.log("Trending Movies:", this.trendingMovies);
+        } else {
+          this.errorMessage = 'No trending movies found.';
+        }
+        this.isLoading = false;
+      },
+      (error) => {
+        console.error("Error fetching trending movies:", error);
+        this.errorMessage = 'Failed to fetch trending movies. Please try again later.';
+        this.isLoading = false;
+      }
+    );
+  }
+
+  listenForSearchUpdates(): void {
     this.dataService.currentMoviesList.subscribe(
       (movies) => {
         if (movies.length > 0) {
-          this.trendingMovies = movies;
+          this.searchMode = true;
+          this.trendingMovies = movies;  // Replace with searched movies
+        } else {
+          this.searchMode = false;
+          this.page = 1;
+          this.trendingMovies = [];
+          this.getTrendingMovies();  // Reset to trending movies
         }
       },
       (error) => {
@@ -46,5 +82,18 @@ export class HomeComponent implements OnInit {
         this.errorMessage = 'Failed to fetch search results.';
       }
     );
+  }
+
+  @HostListener("window:scroll", [])
+  onScroll(): void {
+    this.page++;
+    if (
+      !this.searchMode && 
+      (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10 && 
+      !this.isLoading &&
+      this.page <= this.totalPages
+    ) {
+      this.getAllMovies();
+    }
   }
 }

@@ -11,6 +11,7 @@ export class HeaderComponent implements OnInit {
   trendingMovies: any;
   errorMessage: string = '';
   movieName: string = '';
+  page: number = 1;
 
   constructor(private dataService: DataService) {}
 
@@ -25,7 +26,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getTrendingMovies = () => {
-    this.dataService.getTrendingMovies().subscribe(
+    this.dataService.getTrendingMovies(this.page).subscribe(
       (response: any) => {
         if (response && response.results) {
           this.trendingMovies = response.results;

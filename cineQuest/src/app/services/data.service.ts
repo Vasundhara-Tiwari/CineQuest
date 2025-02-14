@@ -20,8 +20,13 @@ export class DataService {
     private http: HttpClient
   ) { }
 
-  getTrendingMovies(): Observable<any> {
+  getTrendingMovies(page: number): Observable<any> {
     const url = `${this.baseUrl}/trending/all/week?api_key=${this.API_KEY}`;
+    return this.http.get(url);
+  }  
+
+  getAllMoviesByPage(page: number): Observable<any>{
+    const url = `${this.baseUrl}/discover/movie?api_key=${this.API_KEY}&page=${page}`;
     return this.http.get(url);
   }
 
